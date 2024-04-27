@@ -273,7 +273,7 @@
           </transition>
         </div>
         <div class="d-flex position-absolute end-0 bottom-0">
-          <router-link :to="'/member/' + selectedMember.nama">
+          <router-link :to="(selectedMember.member_regular ? '/member/' : '/trainee/') + selectedMember.nama">
             <button type="button" class="btn btn-outline-danger px-5 pt-2 me-3">Cancel</button>
           </router-link>
           <button type="submit" class="btn btn-outline-info px-5 pt-2">Save</button>
@@ -291,21 +291,11 @@
             style="height: 22px; border-radius: 8px"
             alt="instagram"
           />
-          <a
-            :href="
-              'https://www.instagram.com/' + selectedMember.username_ig + '/'
-            "
-            class="text-decoration-none fw-lighter text-white ms-1"
-            >{{ selectedMember.username_ig }}</a
-          >
+          <input type="text" class="link-input" :value="selectedMember.username_ig">
         </div>
         <div class="d-flex align-items-center">
           <img src="../assets/IDN.png" style="height: 22px" alt="IDN" />
-          <a
-            :href="'https://idn.onelink.me/VKUf/' + idnUsername"
-            class="text-decoration-none fw-lighter text-white ms-1"
-            >{{ selectedMember.username_idn }}</a
-          >
+          <input type="text" class="link-input" :value="selectedMember.username_idn">
         </div>
         <div class="d-flex align-items-center">
           <img
@@ -313,13 +303,7 @@
             style="height: 22px; border-radius: 5px"
             alt="tiktok"
           />
-          <a
-            :href="
-              'https://www.tiktok.com/@' + selectedMember.username_tiktok + '/'
-            "
-            class="text-decoration-none fw-lighter text-white ms-1"
-            >{{ selectedMember.username_tiktok }}</a
-          >
+          <input type="text" class="link-input" :value="selectedMember.username_tiktok">
         </div>
         <div class="d-flex align-items-center">
           <img
@@ -327,11 +311,7 @@
             style="height: 22px; border-radius: 5px"
             alt="showroom"
           />
-          <a
-            :href="'https://www.showroom-live.com/r/JKT48_' + showroomUsername"
-            class="text-decoration-none fw-lighter text-white ms-1"
-            >{{ selectedMember.username_sr }}</a
-          >
+          <input type="text" class="link-input" :value="selectedMember.username_sr">
           >
         </div>
         <div class="d-flex align-items-center">
@@ -340,11 +320,7 @@
             style="height: 22px; border-radius: 5px"
             alt="x"
           />
-          <a
-            :href="'https://www.twitter.com/' + selectedMember.username_x + '/'"
-            class="text-decoration-none fw-lighter text-white ms-1"
-            >{{ selectedMember.username_x }}</a
-          >
+          <input type="text" class="link-input" :value="selectedMember.username_x">
         </div>
       </div>
     </div>
@@ -367,7 +343,7 @@ export default {
   async mounted() {
     try {
       const res = await axios.get("/jkt48.member.json");
-      this.member = res.data.member;
+      this.member = res.data;
 
       const foundMember = this.member.find(
         (member) => member.nama === this.$route.params.name
@@ -403,6 +379,17 @@ export default {
 .bio-input.bot-right {
   text-align: right;
   width: 18.6rem;
+}
+
+.link-input{
+  font-size: 1rem;
+  background-color: transparent;
+  border: 1px solid #6c6c6c;
+  padding: 0.2rem 0.5rem;
+  color: #f8f9fa;
+  width: 75%;
+  margin-left: .5rem;
+  border-radius: 3px;
 }
 
 .save-button{

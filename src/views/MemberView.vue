@@ -43,7 +43,9 @@ export default {
     // }
     try {
       const res = await axios.get("/jkt48.member.json");
-      this.member = res.data.member;
+      this.member = res.data.filter((e) => {
+        return e.member_regular === true
+      })
 
       const foundMember = this.member.find(
         (member) => member.nama === this.$route.params.name
