@@ -1,5 +1,5 @@
 <template>
-  <form action="/member/:nama">
+  <form method="POST">
     <div
       class="container px-5 py-3 bg-dark d-flex flex-column"
       style="font-family: 'title'"
@@ -24,7 +24,11 @@
               >
                 Fullname:
               </h6>
-              <input class="bio-input" type="text" :value="selectedMember.nama_lengkap">
+              <input
+                class="bio-input"
+                type="text"
+                :value="selectedMember.nama_lengkap"
+              />
             </div>
           </transition>
           <transition
@@ -38,7 +42,11 @@
               >
                 Stage name:
               </h6>
-              <input class="bio-input" type="text" :value="selectedMember.nama">
+              <input
+                class="bio-input"
+                type="text"
+                :value="selectedMember.nama"
+              />
             </div>
           </transition>
           <transition
@@ -52,7 +60,11 @@
               >
                 Nickname:
               </h6>
-              <input class="bio-input" type="text" :value="selectedMember.nama_panggilan">
+              <input
+                class="bio-input"
+                type="text"
+                :value="selectedMember.nama_panggilan"
+              />
             </div>
           </transition>
           <transition
@@ -66,7 +78,11 @@
               >
                 Generation:
               </h6>
-              <input class="bio-input" type="text" :value="selectedMember.generasi">
+              <input
+                class="bio-input"
+                type="text"
+                :value="selectedMember.generasi"
+              />
             </div>
           </transition>
         </div>
@@ -97,7 +113,13 @@
               >
                 Jikoshoukai:
               </h6>
-              <textarea class="bio-input" name="salam_perkenalan" cols="39" rows="3" :value="selectedMember.salam_perkenalan"></textarea>
+              <textarea
+                class="bio-input"
+                name="salam_perkenalan"
+                cols="39"
+                rows="3"
+                :value="selectedMember.salam_perkenalan"
+              ></textarea>
             </div>
           </transition>
           <transition
@@ -111,7 +133,11 @@
               >
                 Joining Date:
               </h6>
-              <input class="bio-input bot-left" type="text" :value="selectedMember.tanggal_bergabung">
+              <input
+                class="bio-input bot-left"
+                type="text"
+                :value="selectedMember.tanggal_bergabung"
+              />
             </div>
           </transition>
           <transition
@@ -125,7 +151,11 @@
               >
                 Fanbase:
               </h6>
-              <input class="bio-input bot-left" type="text" :value="selectedMember.fanbase">
+              <input
+                class="bio-input bot-left"
+                type="text"
+                :value="selectedMember.fanbase"
+              />
             </div>
           </transition>
           <transition
@@ -139,7 +169,11 @@
               >
                 University:
               </h6>
-              <input class="bio-input bot-left" type="text" :value="selectedMember.universitas">
+              <input
+                class="bio-input bot-left"
+                type="text"
+                :value="selectedMember.universitas"
+              />
             </div>
           </transition>
           <transition
@@ -153,7 +187,11 @@
               >
                 Major:
               </h6>
-              <input class="bio-input bot-left" type="text" :value="selectedMember.jurusan">
+              <input
+                class="bio-input bot-left"
+                type="text"
+                :value="selectedMember.jurusan"
+              />
             </div>
           </transition>
         </div>
@@ -172,7 +210,11 @@
               >
                 Age:
               </h6>
-              <input class="bio-input bot-right" type="text" :value="selectedMember.umur">
+              <input
+                class="bio-input bot-right"
+                type="text"
+                :value="selectedMember.umur"
+              />
             </div>
           </transition>
           <transition
@@ -186,7 +228,11 @@
               >
                 Date of Birth:
               </h6>
-              <input class="bio-input bot-right" type="text" :value="selectedMember.tanggal_lahir">
+              <input
+                class="bio-input bot-right"
+                type="text"
+                :value="selectedMember.tanggal_lahir"
+              />
             </div>
           </transition>
           <transition
@@ -200,7 +246,11 @@
               >
                 City of Birth:
               </h6>
-              <input class="bio-input bot-right" type="text" :value="selectedMember.kota_lahir">
+              <input
+                class="bio-input bot-right"
+                type="text"
+                :value="selectedMember.kota_lahir"
+              />
             </div>
           </transition>
           <transition
@@ -214,24 +264,20 @@
               >
                 City of Origin:
               </h6>
-              <input class="bio-input bot-right" type="text" :value="selectedMember.asal">
+              <input
+                class="bio-input bot-right"
+                type="text"
+                :value="selectedMember.asal"
+              />
             </div>
           </transition>
         </div>
-        <router-link to="/" class="position-absolute bottom-0 end-0">
-          <a
-            class="icon-link icon-link-hover text-decoration-none text-light me-3 fw-bold"
-            style="--bs-link-hover-color-rgb: 25, 135, 84"
-            href="#"
-          >
-            Back to Home
-            <fa
-              class="bi"
-              aria-hidden="true"
-              :icon="['fas', 'right-to-bracket']"
-            ></fa>
-          </a>
-        </router-link>
+        <div class="d-flex position-absolute end-0 bottom-0">
+          <router-link :to="'/member/' + selectedMember.nama">
+            <button type="button" class="btn btn-outline-danger px-5 pt-2 me-3">Cancel</button>
+          </router-link>
+          <button type="submit" class="btn btn-outline-info px-5 pt-2">Save</button>
+        </div>
       </div>
       <hr class="text-light" />
       <div
@@ -340,21 +386,31 @@ export default {
   src: url("../assets/font/adineue-PRO-Bold.ttf") format("truetype");
 }
 
-.bio-input{
-    font-size: 1.7rem;
-    background-color: transparent;
-    border: 1px solid #6c6c6c;
-    padding: .4rem .7rem .2rem;
-    color: #F8F9FA;
-    border-radius: 7px;
+.bio-input {
+  font-size: 1.7rem;
+  background-color: transparent;
+  border: 1px solid #6c6c6c;
+  padding: 0.4rem 0.7rem 0.2rem;
+  color: #f8f9fa;
+  border-radius: 7px;
+  margin-top: 0.2rem;
 }
 
-.bio-input.bot-left{
-    width: 38.35rem;
+.bio-input.bot-left {
+  width: 38.35rem;
 }
 
-.bio-input.bot-right{
-    text-align: right;
-    width: 18rem;
+.bio-input.bot-right {
+  text-align: right;
+  width: 18.6rem;
+}
+
+.save-button{
+  position: absolute;
+  bottom: 0;
+  right: 10rem;
+  border: none;
+  background-color: transparent;
+  color: #f8f9fa;
 }
 </style>

@@ -1,8 +1,18 @@
 <template>
-  <div class="container px-5 py-3 bg-dark d-flex flex-column" style="font-family: 'title';">
-    <h1 class="text-center fw-bolder text-danger mt-3">
+  <div
+    class="container px-5 py-3 bg-dark d-flex flex-column"
+    style="font-family: 'title'"
+  >
+  <div class="d-flex justify-content-center mt-3">
+    <h1 class="text-center fw-bolder text-danger me-1">
       {{ selectedMember.nama }}
     </h1>
+    <router-link :to="'/edit/' + selectedMember.nama">
+      <a class="">
+        <fa class="bi text-light fs-4 p-2 w-auto d-inline-block" aria-hidden="true" :icon="['fas', 'pen-to-square']"></fa>
+      </a>
+    </router-link>
+  </div>
     <hr class="text-light" />
     <bio :data="selectedMember"></bio>
     <hr class="text-light" />
@@ -20,7 +30,7 @@ export default {
     return {
       member: [],
       selectedMember: {},
-      modal: ''
+      modal: "",
     };
   },
   async mounted() {
