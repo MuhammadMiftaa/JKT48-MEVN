@@ -66,8 +66,15 @@ export default {
   async mounted() {
     try {
       const res = await axios.get("jkt48.member.json");
-      this.member = res.data.member;
-      this.trainee = res.data.trainee;
+      this.member = res.data.filter((e) => {
+        return e.member_regular === true
+      })
+      this.trainee = res.data.filter((e) => {
+        return e.member_regular === false
+      })
+      console.log(res.data);
+      console.log(this.member);
+      console.log(this.trainee);
     } catch (error) {
       console.log(error);
     }
