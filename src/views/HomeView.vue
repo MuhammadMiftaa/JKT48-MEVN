@@ -7,31 +7,41 @@
     type="Member"
     :isMember="true"
     :members="filteredMembers"
-    @sendID="(i, isTrainee) => ((index = i), (isMember = !isTrainee))"
+    @sendID="
+      (i, isTrainee) => (
+        (this.modalMember = this.allMember.find((m) => {
+          return m._id.$oid === i;
+        })),
+        (isMember = !isTrainee)
+      )
+    "
   ></cards>
   <cards
     type="Trainee"
     :isMember="false"
     :members="filteredTrainees"
-    @sendID="(i, isTrainee) => ((index = i), (isMember = !isTrainee))"
+    @sendID="
+      (i, isTrainee) => (
+        (this.modalMember = this.allMember.find((m) => {
+          return m._id.$oid === i;
+        })),
+        (isMember = !isTrainee)
+      )
+    "
   ></cards>
   <footer-copyright></footer-copyright>
 
   <modal
     :type="isMember ? 'member' : 'trainee'"
-    v-if="member[index] || trainee[index]"
-    :nama="isMember ? member[index].nama : trainee[index].nama"
-    :foto="isMember ? member[index].foto : trainee[index].foto"
-    :umur="isMember ? member[index].umur : trainee[index].umur"
-    :asal="isMember ? member[index].asal : trainee[index].asal"
-    :generasi="isMember ? member[index].generasi : trainee[index].generasi"
-    :tanggal_lahir="
-      isMember ? member[index].tanggal_lahir : trainee[index].tanggal_lahir
-    "
-    :universitas="
-      isMember ? member[index].universitas : trainee[index].universitas
-    "
-    :jurusan="isMember ? member[index].jurusan : trainee[index].jurusan"
+    v-if="modalMember"
+    :nama="modalMember.nama"
+    :foto="modalMember.foto"
+    :umur="modalMember.umur"
+    :asal="modalMember.asal"
+    :generasi="modalMember.generasi"
+    :tanggal_lahir="modalMember.tanggal_lahir"
+    :universitas="modalMember.universitas"
+    :jurusan="modalMember.jurusan"
   ></modal>
 </template>
 
@@ -48,9 +58,9 @@ export default {
   components: { Modal, Navbar, Cards, GenFormat, FooterCopyright },
   data() {
     return {
+      allMember: [],
       member: [],
       trainee: [],
-      index: 1,
       type: true,
       isMember: true,
       searchObject: {
@@ -60,19 +70,21 @@ export default {
         asal: "",
         universitas: "",
       },
+      modalMember: {},
     };
   },
 
   async mounted() {
     try {
       const res = await axios.get("jkt48.member.json");
+      this.allMember = res.data;
       this.member = res.data.filter((e) => {
-        return e.member_regular === true
-      })
+        return e.member_regular === true;
+      });
       this.trainee = res.data.filter((e) => {
-        return e.member_regular === false
-      })
-      console.log(res.data);
+        return e.member_regular === false;
+      });
+      console.log(this.allMember);
       console.log(this.member);
       console.log(this.trainee);
     } catch (error) {
@@ -85,7 +97,9 @@ export default {
   methods: {
     sendID(type, i) {
       this.type = type;
-      this.index = i;
+      this.modalMember = this.member.concat(this.trainee).find((m) => {
+        return m._id.$oid === i;
+      });
     },
     clearSearch() {
       this.searchObject.nama = "";
@@ -129,6 +143,12 @@ export default {
               : itemValue == searchValue)
           );
         });
+      });
+    },
+    selectedMember() {
+      const id = this.index;
+      this.modalMember = this.member.concat(this.trainee).find((m) => {
+        return m._id.$oid === id;
       });
     },
   },

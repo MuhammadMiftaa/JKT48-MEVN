@@ -31,7 +31,7 @@
             </h3>
             <gen-format :gen="m.generasi"></gen-format>
             <button
-              @click="sendID(m.id)"
+              @click="sendID(m._id.$oid)"
               type="light"
               class="btn btn-light position-absolute bottom-0 end-0"
               data-bs-toggle="modal"
